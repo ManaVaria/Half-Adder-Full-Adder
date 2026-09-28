@@ -1,2 +1,1 @@
-# Verilog-designs
-Basic digital design modules in Verilog with testbenches
+#Half Adder and Full Adder 
