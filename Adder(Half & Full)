@@ -1,0 +1,64 @@
+Design/Source Code(Half Adder):
+module Halfadder(
+    input a,
+    input b,
+    output sum,
+    output carry
+    );
+    assign sum=a^b ;
+    assign carry=a&b ;
+endmodule
+
+Design/Source Code(Full Adder):
+module full_adder(
+input a,b,cin,
+output sum,carry
+    );
+    
+    wire s1,c1,c2;
+    Halfadder HA1(a,b,s1,c1);
+    Halfadder HA2(s1,cin,sum,c2);
+    assign carry=c1|c2;
+endmodule
+
+Test Bench Code(Half Adder):
+`timescale 1ns / 1ps
+module Halfadder_sim();
+reg t_a,t_b;
+wire sum,carry;
+Halfadder dut( 
+.a(t_a),
+.b(t_b),
+.sum(sum),
+.carry(carry)
+);
+
+initial begin
+t_a=0; t_b=0; #10;
+t_a=0; t_b=1; #10;
+t_a=1; t_b=0; #10;
+t_a=1; t_b=1; #10;
+$stop;
+end
+endmodule
+
+Test Bench Code(Full Adder):
+`timescale 1ns / 1ps
+module fullsim();
+    wire sum,carry;
+    reg a,b,cin;
+    full_adder dut(a,b,cin,sum,carry);
+    
+    initial
+    begin 
+         a=0;b=0;cin=0;
+         a=0;b=0;cin=1; #10
+         a=0;b=1;cin=0; #10
+         a=0;b=0;cin=1; #10
+         a=1;b=0;cin=0; #10
+         a=1;b=0;cin=1; #10
+         a=1;b=1;cin=0; #10
+         a=1;b=1;cin=1; #10
+         $finish;
+    end     
+endmodule
